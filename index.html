@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Calculator</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#fffdf5,#f4d477);
+  color:#222;
+}
+
+.calculator{
+  width:360px;
+  max-width:94%;
+  background:#fff;
+  border:2px solid #d4af37;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(170,130,20,.25);
+}
+
+.logo{
+  text-align:center;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:3px;
+  color:#b38b16;
+  margin-bottom:7px;
+}
+
+.title{
+  text-align:center;
+  font-size:25px;
+  font-weight:800;
+  color:#222;
+}
+
+.subtitle{
+  text-align:center;
+  color:#888;
+  font-size:13px;
+  margin:6px 0 20px;
+}
+
+.display{
+  background:linear-gradient(145deg,#fffdf6,#fff);
+  border:1px solid #e3c65a;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
+  min-height:105px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:right;
+}
+
+.expression{
+  color:#9b7a18;
+  font-size:14px;
+  min-height:20px;
+  word-break:break-all;
+}
+
+.result{
+  font-size:31px;
+  font-weight:800;
+  margin-top:8px;
+  color:#222;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+button{
+  height:57px;
+  border:1px solid #e5d49b;
+  border-radius:16px;
+  background:#fff;
+  color:#292929;
+  font-size:19px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.15s;
+}
+
+button:hover{
+  background:#fff9e7;
+  border-color:#d4af37;
+}
+
+button:active{
+  transform:scale(.94);
+}
+
+.operator{
+  background:#fff5cc;
+  color:#9a7510;
+}
+
+.equal{
+  grid-column:span 2;
+  background:linear-gradient(135deg,#d4af37,#f0cf5b);
+  color:#fff;
+  border:none;
+}
+
+.clear{
+  color:#b01d1d;
+}
+
+.footer{
+  text-align:center;
+  color:#999;
+  font-size:11px;
+  margin-top:15px;
+}
+
+
+/* POPUP */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(30,25,10,.55);
+  backdrop-filter:blur(6px);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  z-index:100;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.popup{
+  width:360px;
+  max-width:100%;
+  background:#fff;
+  border-radius:27px;
+  padding:27px;
+  text-align:center;
+  border:2px solid #d4af37;
+  box-shadow:0 25px 70px rgba(0,0,0,.3);
+  animation:popup .25s ease;
+}
+
+@keyframes popup{
+  from{
+    opacity:0;
+    transform:scale(.9) translateY(15px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+}
+
+.lock{
+  width:64px;
+  height:64px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff5cf;
+  border:1px solid #d4af37;
+  font-size:28px;
+}
+
+.popup h2{
+  margin-top:15px;
+  font-size:23px;
+}
+
+.popup p{
+  color:#777;
+  font-size:14px;
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.price{
+  font-size:32px;
+  font-weight:900;
+  color:#b18a18;
+  margin:18px 0;
+}
+
+.pay{
+  width:100%;
+  height:55px;
+  border:none;
+  background:linear-gradient(135deg,#c9a227,#f0cf5b);
+  color:white;
+  font-size:16px;
+}
+
+.close{
+  width:100%;
+  height:45px;
+  margin-top:9px;
+  background:white;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+
+.hidden{
+  filter:blur(7px);
+  user-select:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+  <div class="logo">PREMIUM</div>
+
+  <div class="title">Gold Calculator</div>
+
+  <div class="subtitle">
+    Kalkulator eksklusif dengan hasil terkunci
+  </div>
+
+  <div class="display">
+    <div id="expression" class="expression">0</div>
+    <div id="result" class="result hidden">••••••</div>
+  </div>
+
+  <div class="buttons">
+
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button onclick="hapus()">⌫</button>
+    <button class="operator" onclick="input('/')">÷</button>
+    <button class="operator" onclick="input('*')">×</button>
+
+    <button onclick="input('7')">7</button>
+    <button onclick="input('8')">8</button>
+    <button onclick="input('9')">9</button>
+    <button class="operator" onclick="input('-')">−</button>
+
+    <button onclick="input('4')">4</button>
+    <button onclick="input('5')">5</button>
+    <button onclick="input('6')">6</button>
+    <button class="operator" onclick="input('+')">+</button>
+
+    <button onclick="input('1')">1</button>
+    <button onclick="input('2')">2</button>
+    <button onclick="input('3')">3</button>
+    <button onclick="input('.')">.</button>
+
+    <button onclick="input('0')">0</button>
+    <button class="equal" onclick="hitung()">=</button>
+
+  </div>
+
+  <div class="footer">
+    Hasil perhitungan hanya dapat dibuka setelah pembayaran.
+  </div>
+
+</div>
+
+
+<!-- POPUP PEMBAYARAN -->
+
+<div id="overlay" class="overlay">
+
+  <div class="popup">
+
+    <div class="lock">🔒</div>
+
+    <h2>Hasil Terkunci</h2>
+
+    <p>
+      Perhitungan berhasil dilakukan.
+      Bayar untuk membuka dan melihat hasilnya.
+    </p>
+
+    <div class="price">
+      Rp299.000
+    </div>
+
+    <button class="pay" onclick="bayar()">
+      🔓 Bayar & Buka Hasil
+    </button>
+
+    <button class="close" onclick="tutupPopup()">
+      Nanti Saja
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let expression = "";
+let hasil = null;
+
+const expressionDisplay =
+  document.getElementById("expression");
+
+const resultDisplay =
+  document.getElementById("result");
+
+const overlay =
+  document.getElementById("overlay");
+
+
+function input(value){
+
+  expression += value;
+
+  expressionDisplay.textContent =
+    expression || "0";
+}
+
+
+function clearDisplay(){
+
+  expression = "";
+  hasil = null;
+
+  expressionDisplay.textContent = "0";
+
+  resultDisplay.textContent = "••••••";
+  resultDisplay.classList.add("hidden");
+}
+
+
+function hapus(){
+
+  expression =
+    expression.slice(0,-1);
+
+  expressionDisplay.textContent =
+    expression || "0";
+}
+
+
+function hitung(){
+
+  if(!expression) return;
+
+  try{
+
+    if(!/^[0-9+\-*/(). ]+$/.test(expression)){
+      throw new Error();
+    }
+
+    hasil = Function(
+      '"use strict"; return (' +
+      expression +
+      ')'
+    )();
+
+    if(!Number.isFinite(hasil)){
+      throw new Error();
+    }
+
+    /*
+      Jangan tampilkan hasil.
+      Tampilkan popup pembayaran.
+    */
+
+    overlay.classList.add("show");
+
+  }catch{
+
+    hasil = null;
+
+    alert("Perhitungan tidak valid.");
+
+  }
+}
+
+
+function tutupPopup(){
+
+  overlay.classList.remove("show");
+}
+
+
+function bayar(){
+
+  /*
+    TEMPAT PAYMENT GATEWAY.
+
+    Untuk demo, hasil langsung dibuka.
+    Pada website sungguhan bagian ini
+    harus diganti dengan verifikasi pembayaran.
+  */
+
+  overlay.classList.remove("show");
+
+  resultDisplay.textContent =
+    Number(hasil).toLocaleString("id-ID");
+
+  resultDisplay.classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
