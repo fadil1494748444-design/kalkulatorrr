@@ -3,230 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Calculator</title>
+<title>Premium Calculator</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#fffdf5,#f4d477);
-  color:#222;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fffdf5, #e8cf70);
+  font-family: Arial, sans-serif;
 }
 
-.calculator{
-  width:360px;
-  max-width:94%;
-  background:#fff;
-  border:2px solid #d4af37;
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 20px 60px rgba(170,130,20,.25);
+.calculator {
+  width: 360px;
+  max-width: 94%;
+  padding: 22px;
+  background: white;
+  border: 2px solid #d4af37;
+  border-radius: 28px;
+  box-shadow: 0 20px 60px rgba(150, 110, 10, 0.25);
 }
 
-.logo{
-  text-align:center;
-  font-size:13px;
-  font-weight:bold;
-  letter-spacing:3px;
-  color:#b38b16;
-  margin-bottom:7px;
+.logo {
+  text-align: center;
+  color: #b18a18;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 4px;
 }
 
-.title{
-  text-align:center;
-  font-size:25px;
-  font-weight:800;
-  color:#222;
+.title {
+  text-align: center;
+  font-size: 27px;
+  font-weight: 800;
+  margin-top: 6px;
 }
 
-.subtitle{
-  text-align:center;
-  color:#888;
-  font-size:13px;
-  margin:6px 0 20px;
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin: 6px 0 20px;
 }
 
-.display{
-  background:linear-gradient(145deg,#fffdf6,#fff);
-  border:1px solid #e3c65a;
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:16px;
-  min-height:105px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  text-align:right;
+.display {
+  background: #fffdf5;
+  border: 1px solid #dfc45d;
+  border-radius: 20px;
+  padding: 18px;
+  min-height: 105px;
+  margin-bottom: 16px;
+  text-align: right;
 }
 
-.expression{
-  color:#9b7a18;
-  font-size:14px;
-  min-height:20px;
-  word-break:break-all;
+.expression {
+  color: #a27d12;
+  font-size: 17px;
+  min-height: 24px;
+  word-break: break-all;
 }
 
-.result{
-  font-size:31px;
-  font-weight:800;
-  margin-top:8px;
-  color:#222;
+.result {
+  min-height: 38px;
+  margin-top: 8px;
+  font-size: 30px;
+  font-weight: 800;
 }
 
-.buttons{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
 }
 
-button{
-  height:57px;
-  border:1px solid #e5d49b;
-  border-radius:16px;
-  background:#fff;
-  color:#292929;
-  font-size:19px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.15s;
+button {
+  height: 57px;
+  border-radius: 15px;
+  border: 1px solid #e4d49b;
+  background: white;
+  color: #222;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-button:hover{
-  background:#fff9e7;
-  border-color:#d4af37;
+button:active {
+  transform: scale(0.94);
 }
 
-button:active{
-  transform:scale(.94);
+button:hover {
+  background: #fff9e7;
 }
 
-.operator{
-  background:#fff5cc;
-  color:#9a7510;
+.operator {
+  background: #fff5cc;
+  color: #9b7610;
 }
 
-.equal{
-  grid-column:span 2;
-  background:linear-gradient(135deg,#d4af37,#f0cf5b);
-  color:#fff;
-  border:none;
+.equal {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #c49b20, #f0ce55);
+  color: white;
+  border: none;
 }
 
-.clear{
-  color:#b01d1d;
+.clear {
+  color: #b32626;
 }
 
-.footer{
-  text-align:center;
-  color:#999;
-  font-size:11px;
-  margin-top:15px;
+.footer {
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  margin-top: 14px;
 }
-
 
 /* POPUP */
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(30,25,10,.55);
-  backdrop-filter:blur(6px);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  z-index:100;
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 25, 10, 0.6);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.overlay.show{
-  display:flex;
+.overlay.show {
+  display: flex;
 }
 
-.popup{
-  width:360px;
-  max-width:100%;
-  background:#fff;
-  border-radius:27px;
-  padding:27px;
-  text-align:center;
-  border:2px solid #d4af37;
-  box-shadow:0 25px 70px rgba(0,0,0,.3);
-  animation:popup .25s ease;
+.popup {
+  width: 360px;
+  max-width: 100%;
+  background: white;
+  border: 2px solid #d4af37;
+  border-radius: 27px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 25px 70px rgba(0,0,0,.3);
 }
 
-@keyframes popup{
-  from{
-    opacity:0;
-    transform:scale(.9) translateY(15px);
-  }
-  to{
-    opacity:1;
-    transform:scale(1) translateY(0);
-  }
+.lock {
+  width: 65px;
+  height: 65px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #fff5cf;
+  border: 1px solid #d4af37;
+  font-size: 28px;
 }
 
-.lock{
-  width:64px;
-  height:64px;
-  margin:auto;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#fff5cf;
-  border:1px solid #d4af37;
-  font-size:28px;
+.popup h2 {
+  margin: 15px 0 5px;
 }
 
-.popup h2{
-  margin-top:15px;
-  font-size:23px;
+.popup p {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.popup p{
-  color:#777;
-  font-size:14px;
-  line-height:1.5;
-  margin-top:8px;
+.price {
+  color: #b18a18;
+  font-size: 32px;
+  font-weight: 900;
+  margin: 18px 0;
 }
 
-.price{
-  font-size:32px;
-  font-weight:900;
-  color:#b18a18;
-  margin:18px 0;
+.pay {
+  width: 100%;
+  height: 55px;
+  background: linear-gradient(135deg, #c49b20, #f0ce55);
+  color: white;
+  border: none;
 }
 
-.pay{
-  width:100%;
-  height:55px;
-  border:none;
-  background:linear-gradient(135deg,#c9a227,#f0cf5b);
-  color:white;
-  font-size:16px;
+.close {
+  width: 100%;
+  height: 45px;
+  margin-top: 9px;
+  background: white;
+  border: 1px solid #ddd;
+  font-size: 14px;
 }
 
-.close{
-  width:100%;
-  height:45px;
-  margin-top:9px;
-  background:white;
-  border:1px solid #ddd;
-  font-size:14px;
+.warning {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff0f0;
+  color: #c62828;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.hidden{
-  filter:blur(7px);
-  user-select:none;
+.warning.show {
+  display: block;
 }
 </style>
 </head>
@@ -237,15 +221,19 @@ button:active{
 
   <div class="logo">PREMIUM</div>
 
-  <div class="title">Gold Calculator</div>
+  <div class="title">
+    Gold Calculator
+  </div>
 
   <div class="subtitle">
-    Kalkulator eksklusif dengan hasil terkunci
+    Hasil hanya tersedia setelah pembayaran
   </div>
 
   <div class="display">
     <div id="expression" class="expression">0</div>
-    <div id="result" class="result hidden">••••••</div>
+
+    <!-- HASIL SELALU KOSONG -->
+    <div id="result" class="result"></div>
   </div>
 
   <div class="buttons">
@@ -271,12 +259,15 @@ button:active{
     <button onclick="input('.')">.</button>
 
     <button onclick="input('0')">0</button>
-    <button class="equal" onclick="hitung()">=</button>
+
+    <button class="equal" onclick="hitung()">
+      =
+    </button>
 
   </div>
 
   <div class="footer">
-    Hasil perhitungan hanya dapat dibuka setelah pembayaran.
+    Simulasi pembayaran Rp299.000
   </div>
 
 </div>
@@ -293,8 +284,8 @@ button:active{
     <h2>Hasil Terkunci</h2>
 
     <p>
-      Perhitungan berhasil dilakukan.
-      Bayar untuk membuka dan melihat hasilnya.
+      Hasil perhitungan belum dapat ditampilkan.
+      Silakan melakukan pembayaran untuk membuka hasil.
     </p>
 
     <div class="price">
@@ -302,11 +293,15 @@ button:active{
     </div>
 
     <button class="pay" onclick="bayar()">
-      🔓 Bayar & Buka Hasil
+      Bayar
     </button>
 
+    <div id="warning" class="warning">
+      Anda belum bayar
+    </div>
+
     <button class="close" onclick="tutupPopup()">
-      Nanti Saja
+      Tutup
     </button>
 
   </div>
@@ -317,108 +312,82 @@ button:active{
 <script>
 
 let expression = "";
-let hasil = null;
-
-const expressionDisplay =
-  document.getElementById("expression");
-
-const resultDisplay =
-  document.getElementById("result");
-
-const overlay =
-  document.getElementById("overlay");
 
 
-function input(value){
+/* INPUT ANGKA / OPERATOR */
+
+function input(value) {
 
   expression += value;
 
-  expressionDisplay.textContent =
+  document.getElementById("expression").textContent =
     expression || "0";
+
 }
 
 
-function clearDisplay(){
+/* HAPUS SEMUA */
+
+function clearDisplay() {
 
   expression = "";
-  hasil = null;
 
-  expressionDisplay.textContent = "0";
+  document.getElementById("expression").textContent = "0";
 
-  resultDisplay.textContent = "••••••";
-  resultDisplay.classList.add("hidden");
+  // Hasil tetap kosong
+  document.getElementById("result").textContent = "";
+
 }
 
 
-function hapus(){
+/* HAPUS SATU KARAKTER */
 
-  expression =
-    expression.slice(0,-1);
+function hapus() {
 
-  expressionDisplay.textContent =
+  expression = expression.slice(0, -1);
+
+  document.getElementById("expression").textContent =
     expression || "0";
+
 }
 
 
-function hitung(){
+/* TOMBOL = */
 
-  if(!expression) return;
+function hitung() {
 
-  try{
-
-    if(!/^[0-9+\-*/(). ]+$/.test(expression)){
-      throw new Error();
-    }
-
-    hasil = Function(
-      '"use strict"; return (' +
-      expression +
-      ')'
-    )();
-
-    if(!Number.isFinite(hasil)){
-      throw new Error();
-    }
-
-    /*
-      Jangan tampilkan hasil.
-      Tampilkan popup pembayaran.
-    */
-
-    overlay.classList.add("show");
-
-  }catch{
-
-    hasil = null;
-
-    alert("Perhitungan tidak valid.");
-
+  if (expression === "") {
+    return;
   }
+
+  document.getElementById("overlay").classList.add("show");
+
 }
 
 
-function tutupPopup(){
+/* TOMBOL BAYAR */
 
-  overlay.classList.remove("show");
+function bayar() {
+
+  // Tidak ada pembayaran asli.
+  // Hasil TIDAK akan pernah ditampilkan.
+
+  document.getElementById("warning").classList.add("show");
+
+  document.getElementById("result").textContent = "";
+
 }
 
 
-function bayar(){
+/* TUTUP POPUP */
 
-  /*
-    TEMPAT PAYMENT GATEWAY.
+function tutupPopup() {
 
-    Untuk demo, hasil langsung dibuka.
-    Pada website sungguhan bagian ini
-    harus diganti dengan verifikasi pembayaran.
-  */
+  document.getElementById("overlay").classList.remove("show");
 
-  overlay.classList.remove("show");
+  // Hasil tetap kosong
+  document.getElementById("result").textContent = "";
 
-  resultDisplay.textContent =
-    Number(hasil).toLocaleString("id-ID");
-
-  resultDisplay.classList.remove("hidden");
 }
 
 </script>
